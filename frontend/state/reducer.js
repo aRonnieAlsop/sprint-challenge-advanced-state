@@ -1,7 +1,33 @@
 // ❗ You don't need to add extra reducers to achieve MVP
+
+import { MOVE_CLOCKWISE, MOVE_COUNTERCLOCKWISE } from './action-types'
+
+
 import { combineReducers } from 'redux'
 
-const initialWheelState = 0
+
+
+const initialWheelState = {
+  currentPosition: 0,
+}
+
+function reducer(state = initialWheelState, action) {
+  switch (action.type) {
+    case MOVE_CLOCKWISE:
+      return {
+        ...state,
+        currentPosition: (state.currentPosition + 1) % 6, 
+      }
+    case MOVE_COUNTERCLOCKWISE:
+      return {
+        ...state,
+        currentPosition: (state.currentPosition + 5) % 6,
+      }
+    default:
+      return state
+  }
+}
+
 function wheel(state = initialWheelState, action) {
   return state
 }
