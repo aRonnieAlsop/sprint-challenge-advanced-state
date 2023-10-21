@@ -1,6 +1,8 @@
 // ❗ You don't need to add extra action creators to achieve MVP
 
-import { MOVE_CLOCKWISE, MOVE_COUNTERCLOCKWISE } from './action-types'
+import { MOVE_CLOCKWISE, 
+  MOVE_COUNTERCLOCKWISE,
+  SET_ACTIVE_COG_INDEX } from './action-types'
 
 export function moveClockwise() { 
   return {
@@ -11,6 +13,13 @@ export function moveClockwise() {
 export function moveCounterClockwise() { 
   return {
     type: MOVE_COUNTERCLOCKWISE,
+  }
+}
+
+export function setActiveCogIndex(index) {
+  return {
+    type: SET_ACTIVE_COG_INDEX,
+    payload: index,
   }
 }
 

@@ -1,19 +1,21 @@
 import React, { useState } from 'react'
 import { connect } from 'react-redux'
-import { moveClockwise, moveCounterClockwise } from '../state/action-creators'
+import { moveClockwise, 
+  moveCounterClockwise,
+  setActiveCogIndex } from '../state/action-creators'
 
 function Wheel(props) {
-  const [activeCogIndex, setActiveCogIndex] = useState(0)
+
 
   const handleClockwiseClick = () => {
-    const newIndex = (activeCogIndex - 1 + 6) % 6
-    setActiveCogIndex(newIndex)
+    const newIndex = (props.activeCogIndex - 1 + 6) % 6
+    props.setActiveCogIndex(newIndex)
     props.moveClockwise()
   }
   
   const handleCounterClockwiseClick = () => {
-    const newIndex = (activeCogIndex + 1) % 6
-    setActiveCogIndex(newIndex)
+    const newIndex = (props.activeCogIndex + 1) % 6
+    props.setActiveCogIndex(newIndex)
     props.moveCounterClockwise()
   }
 
@@ -23,10 +25,10 @@ function Wheel(props) {
       {[0, 1, 2, 3, 4, 5].map(index => (
         <div
           key={index}
-          className={`cog ${activeCogIndex === index ? 'active' : ''}`}
+          className={`cog ${props.activeCogIndex === index ? 'active' : ''}`}
           style={{ "--i": index }}
         >
-          {activeCogIndex === index && <span>B</span>}
+          {props.activeCogIndex === index && <span>B</span>}
         </div>
       ))}
     </div>
@@ -43,12 +45,14 @@ function Wheel(props) {
 }
 
 const mapStateToProps = state => ({
-  currentPosition: state.wheel.currentPosition,
+  activeCogIndex: state.reducer.activeCogIndex,
+  currentPosition: state.reducer.currentPosition,
 })
 
 const mapDispatchToProps = {
   moveClockwise,
   moveCounterClockwise,
+  setActiveCogIndex,
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(Wheel)
