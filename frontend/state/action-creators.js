@@ -4,7 +4,8 @@ import { MOVE_CLOCKWISE,
   MOVE_COUNTERCLOCKWISE,
   SET_ACTIVE_COG_INDEX,
   SET_QUIZ_INTO_STATE,
-  SET_INFO_MESSAGE, } from './action-types'
+  SET_INFO_MESSAGE,
+  SET_SELECTED_ANSWER, } from './action-types'
 
 export function moveClockwise() { 
   return {
@@ -22,6 +23,13 @@ export function setActiveCogIndex(index) {
   return {
     type: SET_ACTIVE_COG_INDEX,
     payload: index,
+  }
+}
+
+export function setSelectedAnswer(answerIndex) {
+  return {
+    type: SET_SELECTED_ANSWER,
+    payload: answerIndex,
   }
 }
 

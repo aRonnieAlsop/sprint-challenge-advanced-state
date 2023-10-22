@@ -3,7 +3,8 @@
 import { MOVE_CLOCKWISE, 
   MOVE_COUNTERCLOCKWISE,
   SET_ACTIVE_COG_INDEX,
-  SET_QUIZ_INTO_STATE, } from './action-types'
+  SET_QUIZ_INTO_STATE,
+  SET_SELECTED_ANSWER, } from './action-types'
 
 
 import { combineReducers } from 'redux'
@@ -32,7 +33,10 @@ function reducer(state = initialWheelState, action) {
         ...state,
         currentPosition: (state.currentPosition + 5) % 6,
       };
-    
+    case SET_SELECTED_ANSWER:
+      return {
+        selectedAnswer: action.payload,
+      }
     default:
       return state
   }
