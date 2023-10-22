@@ -2,7 +2,9 @@
 
 import { MOVE_CLOCKWISE, 
   MOVE_COUNTERCLOCKWISE,
-  SET_ACTIVE_COG_INDEX } from './action-types'
+  SET_ACTIVE_COG_INDEX,
+  SET_QUIZ_INTO_STATE,
+  SET_INFO_MESSAGE, } from './action-types'
 
 export function moveClockwise() { 
   return {
@@ -39,6 +41,14 @@ export function fetchQuiz() {
     // First, dispatch an action to reset the quiz state (so the "Loading next quiz..." message can display)
     // On successful GET:
     // - Dispatch an action to send the obtained quiz to its state
+    fetch('http://localhost:9000/api/quiz/next')
+      .then(response => response.json())
+      .then(quiz => {
+        dispatch({ type: SET_QUIZ_INTO_STATE, payload: quiz})
+      })
+      .catch(error => {
+        console.error('Error fetching quiz:', error)
+      })
   }
 }
 export function postAnswer() {

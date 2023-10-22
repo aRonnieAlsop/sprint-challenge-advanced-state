@@ -2,7 +2,8 @@
 
 import { MOVE_CLOCKWISE, 
   MOVE_COUNTERCLOCKWISE,
-  SET_ACTIVE_COG_INDEX } from './action-types'
+  SET_ACTIVE_COG_INDEX,
+  SET_QUIZ_INTO_STATE, } from './action-types'
 
 
 import { combineReducers } from 'redux'
@@ -43,7 +44,12 @@ function wheel(state = initialWheelState, action) {
 
 const initialQuizState = null
 function quiz(state = initialQuizState, action) {
-  return state
+  switch (action.type) {
+    case SET_QUIZ_INTO_STATE:
+      return action.payload;
+    default: 
+      return state;
+  }
 }
 
 const initialSelectedAnswerState = null
