@@ -66,6 +66,7 @@ export function fetchQuiz() {
   }
 }
 export function postAnswer(quizId, answerId) {
+  console.log('i am being called upon')
   return function (dispatch) {
     // On successful POST:
     // - Dispatch an action to reset the selected answer state
