@@ -35,6 +35,7 @@ function reducer(state = initialWheelState, action) {
       };
     case SET_SELECTED_ANSWER:
       return {
+        ...state,
         selectedAnswer: action.payload,
       }
     default:

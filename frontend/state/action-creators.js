@@ -35,7 +35,12 @@ export function setSelectedAnswer(answerIndex) {
 
 export function selectAnswer() { }
 
-export function setMessage() { }
+export function setInfoMessage(message) { 
+  return {
+    type: SET_INFO_MESSAGE,
+    payload: message,
+  }
+}
 
 export function setQuiz() { }
 
@@ -46,6 +51,7 @@ export function resetForm() { }
 // ❗ Async action creators
 export function fetchQuiz() {
   return function (dispatch) {
+    dispatch({ type: SET_QUIZ_INTO_STATE, payload: null })
     // First, dispatch an action to reset the quiz state (so the "Loading next quiz..." message can display)
     // On successful GET:
     // - Dispatch an action to send the obtained quiz to its state
@@ -59,12 +65,33 @@ export function fetchQuiz() {
       })
   }
 }
-export function postAnswer() {
+export function postAnswer(quizId, answerId) {
   return function (dispatch) {
     // On successful POST:
     // - Dispatch an action to reset the selected answer state
     // - Dispatch an action to set the server message to state
     // - Dispatch the fetching of the next quiz
+    fetch('http://localhost:9000/api/quiz/answer', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        quiz_id: quizId,
+        answer_id: answerId,
+      })
+    })
+    .then((response) => response.json())
+    .then((data) => {
+      dispatch(setInfoMessage(data.message))
+
+      dispatch(setSelectedAnswer(null))
+
+      dispatch(fetchQuiz())
+    })
+    .catch((error) => {
+      console.error('Error posting answer:', error)
+    })
   }
 }
 export function postQuiz() {
