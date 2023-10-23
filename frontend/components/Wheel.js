@@ -7,13 +7,13 @@ import { moveClockwise,
 function Wheel(props) {
 
 
-  const handleClockwiseClick = () => {
+  const handleCounterClockwiseClick = () => {
     const newIndex = (props.activeCogIndex - 1 + 6) % 6
     props.setActiveCogIndex(newIndex)
     props.moveClockwise()
   }
   
-  const handleCounterClockwiseClick = () => {
+  const handleClockwiseClick = () => {
     const newIndex = (props.activeCogIndex + 1) % 6
     props.setActiveCogIndex(newIndex)
     props.moveCounterClockwise()
