@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
-import { setQuiz, setAnswer } from '../state/action-creators'
+import { setQuiz, setAnswer, postAnswer } from '../state/action-creators'
 
 export default function Quiz() {
   const dispatch = useDispatch()
@@ -28,7 +28,7 @@ export default function Quiz() {
   if (selectedAnswerIndex !== -1) {
     const payload = {
       quiz_id: quizData.quiz_id,
-      answer_id: quizData.answer[selectedAnswerIndex]
+      answer_id: quizData.answers[selectedAnswerIndex]
     }
 
     dispatch(postAnswer(payload)) 
