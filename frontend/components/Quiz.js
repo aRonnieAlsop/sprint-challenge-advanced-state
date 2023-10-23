@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
-import { setQuiz, setAnswer, postAnswer } from '../state/action-creators'
+import { setQuiz, setAnswer, postAnswer, fetchNextQuiz } from '../state/action-creators'
 
 export default function Quiz() {
   const dispatch = useDispatch()
@@ -26,21 +26,24 @@ export default function Quiz() {
  
   const handleAnswerSubmit = () => {
     if (selectedAnswerIndex !== -1) {
-      const { quiz_id, answers } = quizData;
-      const answer_id = answers[selectedAnswerIndex].answer_id;
-      dispatch(postAnswer(quiz_id, answer_id))
+      const answer_id = quizData.answers[selectedAnswerIndex].answer_id
+      const payload = {
+        quiz_id: quizData.quiz_id,
+        answer_id: answer_id,
+      }
+      dispatch(postAnswer(payload.quiz_id, payload.answer_id))
         .then(() => {
-          console.log('This was sent:', quizData)
+          console.log('This was sent:', payload)
         })
         .catch(error => {
-          console.error('Error submitting answer:', error);
+          console.error('Error submitting answer:', error)
           // Handle error if needed
-        });
+        })
     }
   }
 
   if (!quizData) {
-    return <div>Loading next quiz...</div>;
+    return <div>Loading next quiz...</div>
   } 
 
   
