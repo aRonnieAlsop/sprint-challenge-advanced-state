@@ -25,21 +25,18 @@ export default function Quiz() {
   }
  
   const handleAnswerSubmit = () => {
-  if (selectedAnswerIndex !== -1) {
-    const payload = {
-      quiz_id: quizData.quiz_id,
-      answer_id: quizData.answers[selectedAnswerIndex]
+    if (selectedAnswerIndex !== -1) {
+      const { quiz_id, answers } = quizData;
+      const answer_id = answers[selectedAnswerIndex].answer_id;
+      dispatch(postAnswer(quiz_id, answer_id))
+        .then(() => {
+          console.log('This was sent:', quizData)
+        })
+        .catch(error => {
+          console.error('Error submitting answer:', error);
+          // Handle error if needed
+        });
     }
-
-    dispatch(postAnswer(payload)) 
-      .then(response => {
-        console.log('Answer submitted successfully:', response)
-        dispatch(fetchNextQuiz())
-      })
-      .catch(error => {
-        console.error('Error submitting answer:', error)
-      })
-  }
   }
 
   if (!quizData) {

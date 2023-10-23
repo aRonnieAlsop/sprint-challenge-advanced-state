@@ -6,6 +6,9 @@ import { MOVE_CLOCKWISE,
   SET_QUIZ_INTO_STATE,
   SET_ANSWER,
   SET_QUIZ,
+  POST_ANSWER_REQUEST,
+  POST_ANSWER_SUCCESS,
+  POST_ANSWER_FAILURE,
   } from './action-types'
 
 export function moveClockwise() { 
@@ -24,6 +27,25 @@ export function setActiveCogIndex(index) {
   return {
     type: SET_ACTIVE_COG_INDEX,
     payload: index,
+  }
+}
+
+export function postAnswerRequest() {
+  return {
+    type: POST_ANSWER_REQUEST,
+  }
+}
+
+export function postAnswerSuccess() {
+  return {
+    type: POST_ANSWER_SUCCESS,
+  }
+}
+
+export function postAnswerFailure(error) {
+  return {
+    type: POST_ANSWER_FAILURE,
+    payload: error,
   }
 }
 
@@ -76,26 +98,32 @@ export function fetchNextQuiz() {
   }
 
 }
-export function postAnswer(payload) {
- return function(dispatch) {
-  return fetch('http://localhost:9000/api/quiz/answer', {
-    method: 'POST',
-    headers: {
-      'Content-Type': 'application/json',
-    },
-    body: JSON.stringify(payload),
-  })
-    .then(response => response.json())
-    .then(data => {
-      dispatch(setAnswer(-1))
-      dispatch(setInfoMessage(data.message))
-      return data
+export function postAnswer(quizId, answerId) {
+  return function(dispatch) {
+    dispatch(postAnswerRequest());
+
+    return fetch('http://localhost:9000/api/quiz/answer', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        quiz_id: quizId,
+        answer_id: answerId,
+      }),
     })
-    .catch(error => {
-      console.error('Error posting answer:', error)
-      throw error
-    })
- }
+      .then(response => {
+        if (response.ok) {
+          dispatch(postAnswerSuccess())
+          dispatch(fetchNextQuiz())
+        } else {
+          throw new Error('Failed to post answer');
+        }
+      })
+      .catch(error => {
+        dispatch(postAnswerFailure(error.message));
+      });
+  };
  
 }
 export function postQuiz() {
