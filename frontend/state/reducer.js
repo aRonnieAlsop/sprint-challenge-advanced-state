@@ -4,16 +4,32 @@ import { MOVE_CLOCKWISE,
   MOVE_COUNTERCLOCKWISE,
   SET_ACTIVE_COG_INDEX,
   SET_QUIZ_INTO_STATE,
-  SET_SELECTED_ANSWER, } from './action-types'
+  SET_ANSWER,
+  SET_QUIZ, } from './action-types'
 
 
 import { combineReducers } from 'redux'
 
-
+const initalState = {
+  quiz: null,
+  selectedAnswerIndex: 0,
+}
 
 const initialWheelState = {
   currentPosition: 0,
   activeCogIndex: 0,
+}
+
+function quizReducer(state = initalState, action) {
+  switch (action.type) {
+    case SET_ANSWER:
+      return {
+        ...state,
+        selectedAnswerIndex: action.payload,
+      };
+    default:
+      return state
+  }
 }
 
 function reducer(state = initialWheelState, action) {
@@ -33,10 +49,10 @@ function reducer(state = initialWheelState, action) {
         ...state,
         currentPosition: (state.currentPosition + 5) % 6,
       };
-    case SET_SELECTED_ANSWER:
+    case SET_QUIZ: 
       return {
         ...state,
-        selectedAnswer: action.payload,
+        quiz: action.payload,
       }
     default:
       return state
@@ -54,6 +70,7 @@ function quiz(state = initialQuizState, action) {
       return action.payload;
     default: 
       return state;
+
   }
 }
 
@@ -77,4 +94,4 @@ function form(state = initialFormState, action) {
 }
 
 // export default reducer
-export default combineReducers({ wheel, reducer, quiz, selectedAnswer, infoMessage, form })
+export default combineReducers({ wheel, reducer, quiz, quizReducer, selectedAnswer, infoMessage, form })

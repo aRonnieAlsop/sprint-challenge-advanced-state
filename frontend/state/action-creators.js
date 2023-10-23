@@ -4,6 +4,8 @@ import { MOVE_CLOCKWISE,
   MOVE_COUNTERCLOCKWISE,
   SET_ACTIVE_COG_INDEX,
   SET_QUIZ_INTO_STATE,
+  SET_ANSWER,
+  SET_QUIZ,
   } from './action-types'
 
 export function moveClockwise() { 
@@ -40,6 +42,22 @@ export function setQuiz(quizData) {
     payload: quizData,
   }
  }
+
+ export function setAnswer(index) {
+  console.log('Dispatching SET_ANSWER action with this index:', index)
+  return {
+    type: SET_ANSWER,
+    payload: index,
+  }
+ }
+
+
+export function setQuizToState(quizData) {
+  return {
+    type: SET_QUIZ,
+    payload: quizData,
+  }
+}
 
 export function inputChange() { }
 
