@@ -3,6 +3,7 @@
 import { MOVE_CLOCKWISE, 
   MOVE_COUNTERCLOCKWISE,
   SET_ACTIVE_COG_INDEX,
+  SET_QUIZ_INTO_STATE,
   } from './action-types'
 
 export function moveClockwise() { 
@@ -33,7 +34,12 @@ export function setInfoMessage() {
  
 }
 
-export function setQuiz() { }
+export function setQuiz(quizData) { 
+  return {
+    type: SET_QUIZ_INTO_STATE,
+    payload: quizData,
+  }
+ }
 
 export function inputChange() { }
 
