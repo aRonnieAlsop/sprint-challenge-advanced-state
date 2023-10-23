@@ -6,7 +6,9 @@ export const SET_QUIZ = 'SET_QUIZ'
 export const SET_ANSWER = 'SET_ANSWER'
 export const SET_QUIZ_INTO_STATE = 'SET_QUIZ_INTO_STATE'
 export const SET_SELECTED_ANSWER = 'SET_SELECTED_ANSWER'
+
 export const SET_INFO_MESSAGE = 'SET_INFO_MESSAGE'
+
 export const INPUT_CHANGE = 'INPUT_CHANGE'
 export const RESET_FORM = 'RESET_FORM'
 

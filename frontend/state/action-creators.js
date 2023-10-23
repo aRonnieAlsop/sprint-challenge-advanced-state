@@ -9,6 +9,7 @@ import { MOVE_CLOCKWISE,
   POST_ANSWER_REQUEST,
   POST_ANSWER_SUCCESS,
   POST_ANSWER_FAILURE,
+  SET_INFO_MESSAGE,
   } from './action-types'
 
 export function moveClockwise() { 
@@ -49,13 +50,12 @@ export function postAnswerFailure(error) {
   }
 }
 
-export function setSelectedAnswer() {
-}
 
-export function selectAnswer() { }
-
-export function setInfoMessage() { 
- 
+export function setInfoMessage(message) { 
+ return {
+  type: SET_INFO_MESSAGE,
+  payload: message,
+ }
 }
 
 export function setQuiz(quizData) { 
@@ -115,10 +115,14 @@ export function postAnswer(quizId, answerId) {
       .then(response => {
         if (response.ok) {
           dispatch(postAnswerSuccess())
-          dispatch(fetchNextQuiz())
+          return response.json()
         } else {
           throw new Error('Failed to post answer');
         }
+      })
+      .then(data => {
+        dispatch(setInfoMessage(data.message))
+        dispatch(fetchNextQuiz())
       })
       .catch(error => {
         dispatch(postAnswerFailure(error.message));

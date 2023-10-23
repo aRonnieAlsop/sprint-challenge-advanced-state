@@ -5,7 +5,8 @@ import { MOVE_CLOCKWISE,
   SET_ACTIVE_COG_INDEX,
   SET_QUIZ_INTO_STATE,
   SET_ANSWER,
-  SET_QUIZ, } from './action-types'
+  SET_QUIZ,
+  SET_INFO_MESSAGE, } from './action-types'
 
 
 import { combineReducers } from 'redux'
@@ -81,7 +82,12 @@ function selectedAnswer(state = initialSelectedAnswerState, action) {
 
 const initialMessageState = ''
 function infoMessage(state = initialMessageState, action) {
-  return state
+  switch (action.type) {
+    case SET_INFO_MESSAGE:
+      return action.payload;
+    default: 
+      return state;
+}
 }
 
 const initialFormState = {

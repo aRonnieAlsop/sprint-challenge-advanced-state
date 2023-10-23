@@ -1,6 +1,7 @@
 import React, { useEffect } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
-import { setQuiz, setAnswer, postAnswer, fetchNextQuiz } from '../state/action-creators'
+import { setQuiz, setAnswer, postAnswer } from '../state/action-creators'
+
 
 export default function Quiz() {
   const dispatch = useDispatch()
@@ -37,7 +38,6 @@ export default function Quiz() {
         })
         .catch(error => {
           console.error('Error submitting answer:', error)
-          // Handle error if needed
         })
     }
   }
