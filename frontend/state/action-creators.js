@@ -44,7 +44,6 @@ export function setQuiz(quizData) {
  }
 
  export function setAnswer(index) {
-  console.log('Dispatching SET_ANSWER action with this index:', index)
   return {
     type: SET_ANSWER,
     payload: index,
@@ -64,15 +63,39 @@ export function inputChange() { }
 export function resetForm() { }
 
 // ❗ Async action creators
-export function fetchQuiz() {
+export function fetchNextQuiz() {
+  return function(dispatch) {
+    return fetch('http://localhost:9000/api/quiz/next')
+    .then(response => response.json())
+    .then(data => {
+      dispatch(setQuiz(data))
+    })
+    .catch(error => {
+      console.error('Error fetching next quiz:', error)
+    })
+  }
 
 }
-export function postAnswer() {
- 
-    // On successful POST:
-    // - Dispatch an action to reset the selected answer state
-    // - Dispatch an action to set the server message to state
-    // - Dispatch the fetching of the next quiz
+export function postAnswer(payload) {
+ return function(dispatch) {
+  return fetch('http://localhost:9000/api/quiz/answer', {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify(payload),
+  })
+    .then(response => response.json())
+    .then(data => {
+      dispatch(setAnswer(-1))
+      dispatch(setInfoMessage(data.message))
+      return data
+    })
+    .catch(error => {
+      console.error('Error posting answer:', error)
+      throw error
+    })
+ }
  
 }
 export function postQuiz() {

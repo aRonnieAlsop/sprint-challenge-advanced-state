@@ -21,10 +21,26 @@ export default function Quiz() {
   }, [dispatch, quizData])
 
   const handleAnswerClick = (index) => {
-    console.log('Clicked index:', index)
     dispatch(setAnswer(index))
   }
  
+  const handleAnswerSubmit = () => {
+  if (selectedAnswerIndex !== -1) {
+    const payload = {
+      quiz_id: quizData.quiz_id,
+      answer_id: quizData.answer[selectedAnswerIndex]
+    }
+
+    dispatch(postAnswer(payload)) 
+      .then(response => {
+        console.log('Answer submitted successfully:', response)
+        dispatch(fetchNextQuiz())
+      })
+      .catch(error => {
+        console.error('Error submitting answer:', error)
+      })
+  }
+  }
 
   if (!quizData) {
     return <div>Loading next quiz...</div>;
@@ -47,7 +63,11 @@ export default function Quiz() {
         </div>
       ))}
     </div>
-    <button id="submitAnswerBtn">Submit answer</button>
+    <button 
+    id="submitAnswerBtn"
+    disabled={selectedAnswerIndex === -1}
+    onClick={handleAnswerSubmit}
+    >Submit answer</button>
   </div>
 
   )
