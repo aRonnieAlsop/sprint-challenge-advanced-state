@@ -17,7 +17,7 @@ import { combineReducers } from 'redux'
 
 const initalState = {
   quiz: null,
-  selectedAnswerIndex: 0,
+  selectedAnswerIndex: -1,
 }
 
 const initialWheelState = {
