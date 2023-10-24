@@ -48,6 +48,8 @@ export function Form(props) {
 
 const mapStateToProps = (state) => ({
   formData: state.form,
+  isPosting: state.form.isPosting,
+  postQuizError: state.form.postQuizError,
 })
 
 export default connect(mapStateToProps, actionCreators)(Form)

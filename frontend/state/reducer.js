@@ -7,7 +7,10 @@ import { MOVE_CLOCKWISE,
   SET_ANSWER,
   SET_QUIZ,
   SET_INFO_MESSAGE,
-  INPUT_CHANGE, } from './action-types'
+  INPUT_CHANGE,
+  POST_QUIZ_FAILURE,
+  POST_QUIZ_SUCCESS,
+  POST_QUIZ_REQUEST,  } from './action-types'
 
 
 import { combineReducers } from 'redux'
@@ -102,6 +105,23 @@ function form(state = initialFormState, action) {
       return {
         ...state,
         ...action.payload
+      }
+    case POST_QUIZ_REQUEST:
+      return {
+        ...state,
+        isPosting: true,
+        postQuizError: null,
+      }
+    case POST_QUIZ_SUCCESS:
+      return {
+        ...state,
+        isPosting: false,
+      }
+    case POST_QUIZ_FAILURE:
+      return {
+        ...state,
+        isPosting: false,
+        postQuizError: action.payload,
       }
       default:
         return state

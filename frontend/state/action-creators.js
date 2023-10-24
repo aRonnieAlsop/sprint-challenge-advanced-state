@@ -11,6 +11,10 @@ import { MOVE_CLOCKWISE,
   POST_ANSWER_FAILURE,
   SET_INFO_MESSAGE,
   INPUT_CHANGE,
+  POST_QUIZ_REQUEST,
+  POST_QUIZ_SUCCESS,
+  POST_QUIZ_FAILURE,
+
   } from './action-types'
 
 export function moveClockwise() { 
@@ -136,7 +140,32 @@ export function postAnswer(quizId, answerId) {
   };
  
 }
-export function postQuiz() {
+export function postQuiz(payload) {
+  return function(dispatch) {
+    dispatch({ type: POST_QUIZ_REQUEST })
 
+    return fetch('http://localhost:9000/api/quiz/new', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(payload),
+    })
+      .then(response => {
+        if (response.ok) {
+          return response.json()
+        } else {
+          throw new Error('Failed to post quiz')
+        }
+      })
+      .then(data => {
+        dispatch({ type: POST_QUIZ_SUCCESS })
+        console.log('I think this may work')
+      })
+      .catch(error => {
+        dispatch({ type: POST_QUIZ_FAILURE, payload: error.message })
+        console.log('I am broken')
+      })
+  }
 }
 // ❗ On promise rejections, use log statements or breakpoints, and put an appropriate error message in state
