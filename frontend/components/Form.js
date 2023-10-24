@@ -3,10 +3,10 @@ import { connect } from 'react-redux'
 import * as actionCreators from '../state/action-creators'
 
 export function Form(props) {
-  const { formData, inputChange, postQuiz } = props
+  const { formData, inputChange, postQuiz, setInfoMessage } = props
 
   useEffect(() => {
-    // Fetch initial form data if not already present in the Redux store
+
     if (!formData.newQuestion && !formData.newTrueAnswer && !formData.newFalseAnswer) {
       inputChange()
     }
@@ -18,17 +18,30 @@ export function Form(props) {
   }
 
   const onSubmit = (evt) => {
-    evt.preventDefault();
-    // Validate the form data here if needed
-    // If valid, dispatch the action to post the new quiz
+    evt.preventDefault()
+
     postQuiz({
       question_text: formData.newQuestion,
       true_answer_text: formData.newTrueAnswer,
       false_answer_text: formData.newFalseAnswer,
     })
+    .then(() => {
+      const submittedQuestion = formData.newQuestion
+      setInfoMessage(`Congrats: "${submittedQuestion}" is a great question!`)
+
+      inputChange({
+        newQuestion: '',
+        newTrueAnswer: '',
+        newFalseAnswer: '',
+      })
+    })
+    .catch((error) => {
+      console.error('Error posting quiz:', error)
+      
+      setInfoMessage('Error submitting quiz. Please try again later.')
+    })
   }
 
-  // Disable submit button if any input is empty
   const isSubmitDisabled = !(formData.newQuestion.trim() && formData.newTrueAnswer.trim() && formData.newFalseAnswer.trim())
 
 
