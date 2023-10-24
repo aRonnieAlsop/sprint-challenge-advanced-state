@@ -1,12 +1,13 @@
 import React, { useEffect } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
-import { setQuiz, setAnswer, postAnswer } from '../state/action-creators'
+import { setQuiz, setAnswer, postAnswer, setInfoMessage } from '../state/action-creators'
 
 
 export default function Quiz() {
   const dispatch = useDispatch()
   const quizData = useSelector(state => state.quiz)
   const selectedAnswerIndex = useSelector((state) => state.quizReducer.selectedAnswerIndex)
+  const infoMessage = useSelector(state => state.infoMessage)
 
   useEffect(() => {
     if (!quizData) {
@@ -22,6 +23,7 @@ export default function Quiz() {
   }, [dispatch, quizData])
 
   const handleAnswerClick = (index) => {
+    dispatch(setInfoMessage(''))
     dispatch(setAnswer(index))
   }
  
