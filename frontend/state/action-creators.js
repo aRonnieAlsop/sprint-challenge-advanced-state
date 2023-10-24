@@ -64,9 +64,14 @@ export function setInfoMessage(message) {
 }
 
 export function setQuiz(quizData) { 
-  return {
-    type: SET_QUIZ_INTO_STATE,
-    payload: quizData,
+  return function(dispatch) {
+    // Reset selected answer index to -1 when a new question loads
+    dispatch(setAnswer(-1))
+
+    dispatch({
+      type: SET_QUIZ_INTO_STATE,
+      payload: quizData,
+    })
   }
  }
 
