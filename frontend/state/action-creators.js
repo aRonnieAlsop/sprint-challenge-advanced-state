@@ -10,6 +10,7 @@ import { MOVE_CLOCKWISE,
   POST_ANSWER_SUCCESS,
   POST_ANSWER_FAILURE,
   SET_INFO_MESSAGE,
+  INPUT_CHANGE,
   } from './action-types'
 
 export function moveClockwise() { 
@@ -80,7 +81,12 @@ export function setQuizToState(quizData) {
   }
 }
 
-export function inputChange() { }
+export function inputChange(payload) {
+  return {
+    type: INPUT_CHANGE,
+    payload,
+  }
+ }
 
 export function resetForm() { }
 

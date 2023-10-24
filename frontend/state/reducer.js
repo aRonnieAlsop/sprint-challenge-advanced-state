@@ -6,7 +6,8 @@ import { MOVE_CLOCKWISE,
   SET_QUIZ_INTO_STATE,
   SET_ANSWER,
   SET_QUIZ,
-  SET_INFO_MESSAGE, } from './action-types'
+  SET_INFO_MESSAGE,
+  INPUT_CHANGE, } from './action-types'
 
 
 import { combineReducers } from 'redux'
@@ -96,7 +97,15 @@ const initialFormState = {
   newFalseAnswer: '',
 }
 function form(state = initialFormState, action) {
-  return state
+  switch (action.type) {
+    case INPUT_CHANGE:
+      return {
+        ...state,
+        ...action.payload
+      }
+      default:
+        return state
+  }
 }
 
 // export default reducer
