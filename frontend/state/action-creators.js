@@ -130,34 +130,7 @@ export function postAnswer(quizId, answerId) {
   };
  
 }
-export function postQuiz(formData) {
-  return (dispatch) => {
-    fetch('http://localhost:9000/api/quiz/new', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify(formData),
-    })
-      .then((response) => {
-        if (response.status === 201) {
-          return response.json();
-        } else if (response.status === 422) {
-          return response.json().then((data) => {
-            throw new Error(data.reason);
-          });
-        } else {
-          throw new Error('Unexpected error occurred');
-        }
-      })
-      .then((quiz) => {
-        // Handle the newly created quiz object (dispatch an action if needed)
-        console.log('Quiz created:', quiz);
-      })
-      .catch((error) => {
-        // Handle errors (dispatch an action if needed)
-        console.error('Error creating quiz:', error.message);
-      });
-  };
+export function postQuiz() {
+
 }
 // ❗ On promise rejections, use log statements or breakpoints, and put an appropriate error message in state
