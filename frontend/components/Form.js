@@ -1,16 +1,31 @@
-import React from 'react'
-import { connect } from 'react-redux'
-import * as actionCreators from '../state/action-creators'
+import React, { useState } from 'react';
+import { connect } from 'react-redux';
+import * as actionCreators from '../state/action-creators';
 
 export function Form(props) {
+  const [formData, setFormData] = useState({
+    newQuestion: '',
+    newTrueAnswer: '',
+    newFalseAnswer: '',
+  });
 
-  const onChange = evt => {
+  const onChange = (evt) => {
+    const { id, value } = evt.target;
+    setFormData((prevData) => ({
+      ...prevData,
+      [id]: value,
+    }));
+  };
 
-  }
-
-  const onSubmit = evt => {
-
-  }
+  const onSubmit = (evt) => {
+    evt.preventDefault()
+    const payload = {
+      question_text: formData.newQuestion,
+      true_answer_text: formData.newTrueAnswer,
+      false_answer_text: formData.newFalseAnswer,
+    }
+    props.postQuiz(payload);
+  };
 
   return (
     <form id="form" onSubmit={onSubmit}>
@@ -18,9 +33,10 @@ export function Form(props) {
       <input maxLength={50} onChange={onChange} id="newQuestion" placeholder="Enter question" />
       <input maxLength={50} onChange={onChange} id="newTrueAnswer" placeholder="Enter true answer" />
       <input maxLength={50} onChange={onChange} id="newFalseAnswer" placeholder="Enter false answer" />
-      <button id="submitNewQuizBtn">Submit new quiz</button>
+      <button type="submit" id="submitNewQuizBtn">Submit new quiz</button>
     </form>
-  )
+  );
 }
 
-export default connect(st => st, actionCreators)(Form)
+export default connect(null, actionCreators)(Form);
+
