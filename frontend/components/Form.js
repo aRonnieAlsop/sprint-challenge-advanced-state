@@ -9,11 +9,18 @@ export function Form(props) {
     newFalseAnswer: '',
   }
 
-  const [formData, setFormData] = useState(initialFormState)
+  const [formData, setFormData] = useState({
+newQuestion: '',
+newTrueAnswer: '',
+newFalseAnswer: '',})
 
   useEffect(() => {
     localStorage.setItem('formData', JSON.stringify(formData))
   }, [formData])
+
+  const { newQuestion, newTrueAnswer, newFalseAnswer } = formData
+
+  const isSubmitDisabled = !(newQuestion.trim().length > 0 && newTrueAnswer.trim().length > 0 && newFalseAnswer.trim().length > 0)
 
   const onChange = (evt) => {
     const { id, value } = evt.target;
@@ -67,7 +74,7 @@ export function Form(props) {
       placeholder="Enter false answer" 
       value={formData.newFalseAnswer}
       />
-      <button type="submit" id="submitNewQuizBtn">Submit new quiz</button>
+      <button type="submit" id="submitNewQuizBtn" disabled={isSubmitDisabled}>Submit new quiz</button>
     </form>
   )
 }
