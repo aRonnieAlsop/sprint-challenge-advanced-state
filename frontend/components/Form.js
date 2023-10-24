@@ -24,7 +24,14 @@ export function Form(props) {
       true_answer_text: formData.newTrueAnswer,
       false_answer_text: formData.newFalseAnswer,
     }
-    props.postQuiz(payload);
+    props.postQuiz(payload)
+      .then((quiz) => {
+        props.setInfoMessage(`Congrats: "${quiz.question_text}" is a great question!`)
+      })
+      .catch((error) => {
+        console.log('Error Setting New Quiz:', error.message)
+      })
+   
   };
 
   return (
